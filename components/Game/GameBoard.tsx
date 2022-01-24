@@ -3,7 +3,7 @@ import { useChannel } from "./useChannel";
 import { useRouter } from "next/router";
 
 export default function GameBoard() {
-  const [words, setWords] = useState([]);
+  const [words, setWords] = useState<string[]>([]);
   const [nextWord, setNextWord] = useState("");
   const router = useRouter();
   const [channel, ably] = useChannel(
@@ -17,6 +17,7 @@ export default function GameBoard() {
     (evt) => {
       evt.preventDefault();
       channel.publish({ name: "new-word", data: nextWord });
+      setNextWord("");
     },
     [channel, nextWord]
   );
