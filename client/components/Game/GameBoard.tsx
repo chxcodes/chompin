@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
-import { useChannel } from "./useChannel";
 import { useRouter } from "next/router";
 import AutosizeInput from "react-input-autosize";
+import { Game } from "../../../models/Game";
 
 import { styled } from "../../styles/stitches.config";
 
-const Game = styled("div", {
+const GameContainer = styled("div", {
   margin: "5vh 10vw",
 });
 const Form = styled("form", {
@@ -76,30 +76,38 @@ const players = [
   { name: "Noodles", color: "#ef7b4f" },
 ];
 
-export default function GameBoard() {
-  const [words, setWords] = useState<{ word: string; player: Player }[]>([]);
+type Word = {
+  word: string;
+  player: Player;
+};
+
+export default function GameBoard({ game }: { game: Game }) {
+  const { words } = game;
+  // const [words, setWords] = useState<{ word: string; player: Player }[]>([]);
   const [nextWord, setNextWord] = useState("");
   const router = useRouter();
-  const [channel, ably] = useChannel(
-    `chompin-${router.query.id}`,
-    (message) => {
-      setWords([
-        ...words,
-        {
-          word: message.data,
-          player: players[words.length % players.length],
-        },
-      ]);
-      console.log(message);
-    }
-  );
+
+  // const [channel, ably] = useChannel(
+  //   `chompin-${router.query.id}`,
+  //   (message) => {
+  //     setWords([
+  //       ...words,
+  //       {
+  //         word: message.data,
+  //         player: players[words.length % players.length],
+  //       },
+  //     ]);
+  //     console.log(message);
+  //   }
+  // );
   const sendWord = useCallback(
     (evt) => {
       evt.preventDefault();
-      channel.publish({ name: "new-word", data: nextWord.trim() });
+      console.log(nextWord.trim());
+      //     channel.publish({ name: "new-word", data: nextWord.trim() });
       setNextWord("");
     },
-    [channel, nextWord]
+    [nextWord]
   );
 
   const prompt = "TODO: Randomly generate a prompt";
@@ -107,7 +115,7 @@ export default function GameBoard() {
   console.log(words.length % players.length, activePlayer);
 
   return (
-    <Game>
+    <GameContainer>
       <h1>🐊 Chompin'</h1>
       <ul>
         {players.map((player) => (
@@ -152,6 +160,6 @@ export default function GameBoard() {
           </SendWordButton>
         </WordEntry>
       </Form>
-    </Game>
+    </GameContainer>
   );
 }

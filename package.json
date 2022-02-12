@@ -9,16 +9,23 @@
   },
   "dependencies": {
     "@stitches/react": "^1.2.6",
-    "ably": "^1.2.17",
+    "@typegoose/typegoose": "^8.3.0",
+    "iron-session": "^6.0.5",
+    "mongoose": "^5.13.14",
     "next": "12.0.8",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-input-autosize": "^3.0.0"
+    "react-input-autosize": "^3.0.0",
+    "short-unique-id": "^4.4.4",
+    "unique-names-generator": "^4.6.0",
+    "use-http": "^1.0.26",
+    "use-persisted-state": "^0.3.3"
   },
   "devDependencies": {
     "@types/node": "17.0.10",
     "@types/react": "17.0.38",
     "@types/react-input-autosize": "^2.2.1",
+    "@types/use-persisted-state": "^0.3.1",
     "eslint": "8.7.0",
     "eslint-config-next": "12.0.8",
     "prettier": "^2.5.1",
